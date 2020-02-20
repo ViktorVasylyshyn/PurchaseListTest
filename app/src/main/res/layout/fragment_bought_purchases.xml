@@ -14,4 +14,13 @@
         app:layout_constrainedHeight="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+    <ProgressBar
+        android:id="@+id/bought_purchase_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </LinearLayout>

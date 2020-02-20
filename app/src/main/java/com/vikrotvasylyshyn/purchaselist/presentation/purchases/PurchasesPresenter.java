@@ -1,7 +1,10 @@
 package com.vikrotvasylyshyn.purchaselist.presentation.purchases;
 
+import android.util.Log;
+
 import com.vikrotvasylyshyn.purchaselist.data.PurchasesRepository;
 import com.vikrotvasylyshyn.purchaselist.data.model.Purchase;
+import com.vikrotvasylyshyn.purchaselist.utill.Constants;
 
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class PurchasesPresenter implements PurchasesListContract.Presenter {
             public void onSuccess(List<Purchase> list) {
                 view.showPurchases(list);
                 view.showProgress(false);
+//                Log.d(Constants.TAG,"list size is - " + list.size());
             }
 
             @Override

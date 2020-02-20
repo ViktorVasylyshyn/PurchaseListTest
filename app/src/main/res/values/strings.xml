@@ -9,4 +9,5 @@
 
     <string name="toast_purchase_added">purchase added</string>
     <string name="toast_purchase_error">error</string>
+    <string name="toast_purchase_deleted">deleted</string>
 </resources>

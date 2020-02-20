@@ -9,7 +9,8 @@ import io.reactivex.Single;
 public interface PurchasesListContract {
 
     interface View {
-        void showProgress(Boolean showProgress);
+        void showProgress(boolean showProgress);
+
         void showError(String message);
 
         void showPurchases(List<Purchase> purchaseList);
@@ -17,6 +18,7 @@ public interface PurchasesListContract {
 
     interface Presenter {
         void fetchPurchasesList();
+
         void markAsBought(Purchase purchase);
 
         void takeView(View view);
