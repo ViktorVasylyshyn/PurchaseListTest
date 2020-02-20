@@ -19,6 +19,6 @@ public abstract class FragmentsBuilderModule {
     @ContributesAndroidInjector(modules = BoughtPurchasesFragmentModule.class)
     abstract BoughtPurchasesFragment contributeBoughtPurchasesFragment();
 
-    @ContributesAndroidInjector(modules = {AddPurchaseFragmentModule.class, DataObjectModule.class})
+    @ContributesAndroidInjector(modules = {AddPurchaseFragmentModule.class})
     abstract AddPurchaseFragment contributeAddPurchasesFragment();
 }

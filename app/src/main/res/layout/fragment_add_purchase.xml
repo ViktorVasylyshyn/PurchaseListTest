@@ -15,6 +15,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/purchase_title"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -29,6 +32,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/purchase_num"
+            android:maxLines="1"
+            android:maxLength="9"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>

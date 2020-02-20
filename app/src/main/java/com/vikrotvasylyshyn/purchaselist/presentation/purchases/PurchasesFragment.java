@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,13 +44,13 @@ public class PurchasesFragment extends BaseFragment implements PurchasesListCont
     }
 
     @OnClick(R.id.mark_all)
-    void markAllPurchases(){
-        //mark all
+    void markAllPurchases() {
+        presenter.markAllAsBought();
     }
 
     @Override
     public void showPurchases(List<Purchase> purchaseList) {
-//        showToast(String.valueOf(purchaseList.size()));
+        showToast(String.valueOf(purchaseList.size()));
         adapter.setData(purchaseList);
     }
 
@@ -63,6 +62,11 @@ public class PurchasesFragment extends BaseFragment implements PurchasesListCont
     @Override
     public void showError(String message) {
         showToast(message);
+    }
+
+    @Override
+    public void markedAsBought() {
+        showToast(R.string.toast_purchase_added_to_bought);
     }
 
     private void initRecyclerView() {
@@ -88,8 +92,8 @@ public class PurchasesFragment extends BaseFragment implements PurchasesListCont
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
         presenter.onDetached();
     }
 }

@@ -8,7 +8,6 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vikrotvasylyshyn.purchaselist.R;
@@ -22,8 +21,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Binds;
-import dagger.android.support.DaggerFragment;
 
 public class BoughtPurchasesFragment extends BaseFragment implements BoughtPurchasesContract.View {
 
@@ -36,7 +33,6 @@ public class BoughtPurchasesFragment extends BaseFragment implements BoughtPurch
     @BindView(R.id.bought_purchase_progress_bar)
     ProgressBar progressBar;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,8 +41,6 @@ public class BoughtPurchasesFragment extends BaseFragment implements BoughtPurch
         initRecyclerView();
         return view;
     }
-
-
 
     private void initRecyclerView() {
         adapter.setOnClickListener(this::deletePurchase);
@@ -77,7 +71,7 @@ public class BoughtPurchasesFragment extends BaseFragment implements BoughtPurch
         adapter.setData(purchases);
     }
 
-    private void deletePurchase(Purchase purchase){
+    private void deletePurchase(Purchase purchase) {
         presenter.deletePurchase(purchase);
     }
 

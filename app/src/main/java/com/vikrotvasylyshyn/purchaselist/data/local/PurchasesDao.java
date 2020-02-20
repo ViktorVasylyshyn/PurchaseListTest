@@ -22,11 +22,11 @@ public interface PurchasesDao {
     @Delete
     Completable delete(Purchase model);
 
-    @Query("SELECT * FROM purchase")
-// WHERE status = 'bought'
+    @Query("SELECT * FROM purchases WHERE status = 'bought'")
+
     Single<List<Purchase>> getBoughtPurchase();
 
-    @Query("SELECT * FROM purchase")
-// WHERE status = 'active'
+    @Query("SELECT * FROM purchases WHERE status = 'active'")
+
     Single<List<Purchase>> getActivePurchase();
 }
