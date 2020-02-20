@@ -15,7 +15,8 @@ public class BoughtPurchasesPresenter implements BoughtPurchasesContract.Present
 
     private BoughtPurchasesContract.View view;
     private BoughtPurchasesContract.Repository repository;
-    private CompositeDisposable disposable = new CompositeDisposable(); //TODO DAGGER
+    @Inject
+    CompositeDisposable disposable;
 
     @Inject
     public BoughtPurchasesPresenter(PurchasesRepository repository) {
@@ -26,7 +27,7 @@ public class BoughtPurchasesPresenter implements BoughtPurchasesContract.Present
     @Override
     public void fetchBoughtPurchasesList() {
         view.showProgress(true);
-        disposable.add(repository.fetchBoughtPurchasesList().subscribeWith(new DisposableSingleObserver<List<Purchase>>(){
+        disposable.add(repository.fetchBoughtPurchasesList().subscribeWith(new DisposableSingleObserver<List<Purchase>>() {
 
             @Override
             public void onSuccess(List<Purchase> list) {
@@ -40,7 +41,6 @@ public class BoughtPurchasesPresenter implements BoughtPurchasesContract.Present
                 view.showError(e.getMessage());
             }
         }));
-
     }
 
     @Override
@@ -48,6 +48,7 @@ public class BoughtPurchasesPresenter implements BoughtPurchasesContract.Present
         disposable.add(repository.deletePurchase(purchase).subscribeWith(new DisposableCompletableObserver() {
             @Override
             public void onComplete() {
+                fetchBoughtPurchasesList();
                 view.showDeleted();
             }
 
@@ -72,7 +73,6 @@ public class BoughtPurchasesPresenter implements BoughtPurchasesContract.Present
     @Override
     public void onDetached() {
         view = null;
-        disposable.clear();
-        //unsubscribe rx
+        disposable.dispose();
     }
 }

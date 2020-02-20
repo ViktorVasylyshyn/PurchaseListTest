@@ -2,6 +2,7 @@ package com.vikrotvasylyshyn.purchaselist.presentation.add;
 
 import com.vikrotvasylyshyn.purchaselist.data.PurchasesRepository;
 import com.vikrotvasylyshyn.purchaselist.data.model.Purchase;
+import com.vikrotvasylyshyn.purchaselist.utill.Constants;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,8 @@ public class AddPurchasePresenter implements AddPurchaseContract.Presenter {
     private AddPurchaseContract.View view;
     private AddPurchaseContract.Repository repository;
     private DisposableCompletableObserver disposable;
+    @Inject
+    Purchase emptyPurchase;
 
     @Inject
     public AddPurchasePresenter(PurchasesRepository repository) {
@@ -19,10 +22,13 @@ public class AddPurchasePresenter implements AddPurchaseContract.Presenter {
     }
 
     @Override
-    public void onAddPurchaseClicked(Purchase purchase) {
+    public void onAddPurchaseClicked(String title, String num, String imageUri) {
         view.showProgress(true);
-//        Log.d(Constants.TAG, purchase.getTitle() +" "+ purchase.getCount()+ " "+ purchase.getImageUri() +  " " + purchase.getStatus());
-        disposable = repository.addPurchase(purchase).subscribeWith(new DisposableCompletableObserver() {
+        emptyPurchase.setTitle(title);
+        emptyPurchase.setCount(num);
+        emptyPurchase.setImageUri(imageUri);
+        emptyPurchase.setStatus(Constants.ACTIVE);
+        disposable = repository.addPurchase(emptyPurchase).subscribeWith(new DisposableCompletableObserver() {
             @Override
             public void onComplete() {
                 view.showProgress(false);
@@ -50,7 +56,7 @@ public class AddPurchasePresenter implements AddPurchaseContract.Presenter {
     @Override
     public void onDetached() {
         view = null;
-        disposable.dispose();
-        //unsubscribe rx
+        if (disposable != null)
+            disposable.dispose();
     }
 }

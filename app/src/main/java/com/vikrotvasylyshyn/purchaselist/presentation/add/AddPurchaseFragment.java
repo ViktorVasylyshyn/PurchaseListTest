@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +44,7 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
     @OnClick(R.id.confirm_button)
     void addPurchase() {
         //TODO check empty params
-        presenter.onAddPurchaseClicked(new Purchase(title.getText().toString(), num.getText().toString(), "",Constants.ACTIVE));
+        presenter.onAddPurchaseClicked(title.getText().toString(), num.getText().toString(), "");
     }
 
     @Override
@@ -86,6 +85,7 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         presenter.onDetached();
     }
 }

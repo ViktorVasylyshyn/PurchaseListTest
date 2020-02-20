@@ -13,6 +13,8 @@ public interface PurchasesListContract {
 
         void showError(String message);
 
+        void markedAsBought();
+
         void showPurchases(List<Purchase> purchaseList);
     }
 
@@ -20,6 +22,8 @@ public interface PurchasesListContract {
         void fetchPurchasesList();
 
         void markAsBought(Purchase purchase);
+
+        void markAllAsBought();
 
         void takeView(View view);
 

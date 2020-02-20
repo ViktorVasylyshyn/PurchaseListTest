@@ -12,7 +12,7 @@ public interface AddPurchaseContract {
     }
 
     interface Presenter {
-        void onAddPurchaseClicked(Purchase purchase);
+        void onAddPurchaseClicked(String title, String num, String imageUrl);
         void takeView(AddPurchaseContract.View view);
         void dropView();
         void onDetached();

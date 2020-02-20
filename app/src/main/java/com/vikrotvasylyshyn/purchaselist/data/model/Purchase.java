@@ -3,7 +3,7 @@ package com.vikrotvasylyshyn.purchaselist.data.model;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "purchase")
+@Entity(tableName = "purchases")
 public class Purchase {
     @PrimaryKey(autoGenerate = true)
     public long roomId;

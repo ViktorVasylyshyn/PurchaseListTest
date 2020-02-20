@@ -44,14 +44,14 @@ public class PurchasesRepository implements PurchasesListContract.Repository, Ad
 
     @Override
     public Completable addPurchase(Purchase purchase) {
-        return Completable.fromCallable(() -> purchasesDao.insert(purchase))
+        return purchasesDao.insert(purchase)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Completable deletePurchase(Purchase purchase) {
-        return Completable.fromCallable(() -> purchasesDao.delete(purchase))
+        return purchasesDao.delete(purchase)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
