@@ -51,12 +51,12 @@ public class PurchasesFragment extends BaseFragment implements PurchasesListCont
 
     @Override
     public void showPurchases(List<Purchase> purchaseList) {
-        showToast(String.valueOf(purchaseList.size()));
+//        showToast(String.valueOf(purchaseList.size()));
         adapter.setData(purchaseList);
     }
 
     @Override
-    public void showProgress(Boolean showProgress) {
+    public void showProgress(boolean showProgress) {
         progressBar.setVisibility(showProgress ? View.VISIBLE : View.GONE);
     }
 

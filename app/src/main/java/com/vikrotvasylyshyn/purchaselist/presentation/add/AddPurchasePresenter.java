@@ -21,6 +21,7 @@ public class AddPurchasePresenter implements AddPurchaseContract.Presenter {
     @Override
     public void onAddPurchaseClicked(Purchase purchase) {
         view.showProgress(true);
+//        Log.d(Constants.TAG, purchase.getTitle() +" "+ purchase.getCount()+ " "+ purchase.getImageUri() +  " " + purchase.getStatus());
         disposable = repository.addPurchase(purchase).subscribeWith(new DisposableCompletableObserver() {
             @Override
             public void onComplete() {

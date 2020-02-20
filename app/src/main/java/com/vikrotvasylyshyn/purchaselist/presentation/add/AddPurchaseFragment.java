@@ -63,7 +63,7 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
 
     @Override
     public void showError() {
-        Toast.makeText(requireContext(), R.string.toast_purchase_error, Toast.LENGTH_SHORT).show();
+        showToast(R.string.toast_purchase_error);
     }
 
     @OnClick(R.id.purchase_image)
