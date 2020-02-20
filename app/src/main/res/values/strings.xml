@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">PurchaseListTest</string>
+
+    <string name="view_pager_title_active">active</string>
+    <string name="view_pager_title_bought">bought</string>
+    <string name="button_title_confirm">confirm</string>
+    <string name="hint_purchase_num">num of items</string>
+    <string name="hint_purchase_title">what purchase would like to by?</string>
+
+    <string name="toast_purchase_added">purchase added</string>
+    <string name="toast_purchase_error">error</string>
+</resources>
