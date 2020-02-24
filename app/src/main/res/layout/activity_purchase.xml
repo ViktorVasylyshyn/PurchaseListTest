@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.PurchaseActivity">
+    tools:context=".presentation.PurchaseActivity"
+    android:background="@color/colorPrimary">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
         app:elevation="@dimen/margin_medium"
         app:itemIconSize="@dimen/bnb_icon_size"
         app:itemIconTint="@drawable/menu_icons_color_selector"
@@ -27,6 +27,7 @@
         app:layout_constrainedWidth="true"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_view"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/nav_graph" />
+        app:navGraph="@navigation/nav_graph"
+        tools:ignore="FragmentTagUsage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

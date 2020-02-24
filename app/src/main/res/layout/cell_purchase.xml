@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_large"
-    android:padding="@dimen/margin_large">
+    android:padding="@dimen/margin_large"
+    android:background="@color/colorWhiteOverlayTransparency45">
 
     <TextView
-        android:id="@+id/title"
-        android:text="n/a"
-        android:layout_width="match_parent"
+        android:id="@+id/purchase_cell_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/count"
-        android:text="n/a"
-        android:layout_width="match_parent"
+        android:id="@+id/purchase_cell_number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/purchase_cell_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/purchase_cell_image"
+        android:layout_width="@dimen/cell_image_width"
+        android:layout_height="@dimen/cell_image_height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

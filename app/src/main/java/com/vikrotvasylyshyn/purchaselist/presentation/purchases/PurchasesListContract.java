@@ -1,39 +1,24 @@
 package com.vikrotvasylyshyn.purchaselist.presentation.purchases;
 
 import com.vikrotvasylyshyn.purchaselist.data.model.Purchase;
+import com.vikrotvasylyshyn.purchaselist.presentation.base.BasePresenter;
+import com.vikrotvasylyshyn.purchaselist.presentation.base.BaseView;
 
 import java.util.List;
 
-import io.reactivex.Single;
-
 public interface PurchasesListContract {
 
-    interface View {
-        void showProgress(boolean showProgress);
+    interface View extends BaseView {
 
-        void showError(String message);
-
-        void markedAsBought();
+        void updateBoughtStatus();
 
         void showPurchases(List<Purchase> purchaseList);
     }
 
-    interface Presenter {
-        void fetchPurchasesList();
+    interface Presenter extends BasePresenter<View> {
 
-        void markAsBought(Purchase purchase);
+        void updatePurchaseStatusAsBought(Purchase purchase);
 
         void markAllAsBought();
-
-        void takeView(View view);
-
-        void dropView();
-
-        void onDetached();
-    }
-
-    interface Repository {
-        Single<List<Purchase>> fetchPurchaseList();
-
     }
 }

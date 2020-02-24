@@ -21,9 +21,7 @@ public class PurchaseActivity extends DaggerAppCompatActivity {
     BottomNavigationView.OnNavigationItemReselectedListener mOnNavigationItemReselectedListener;
     @BindView(R.id.bottom_navigation_view)
     BottomNavigationView bottomNavigationView;
-
     NavController navController;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_bought_purchases" />
     <fragment
         android:id="@+id/add_purchase"
-        android:name="com.vikrotvasylyshyn.purchaselist.presentation.add.AddPurchaseFragment"
+        android:name="com.vikrotvasylyshyn.purchaselist.presentation.addpurchase.AddPurchaseFragment"
         android:label="fragment_add_purchase"
         tools:layout="@layout/fragment_add_purchase" />
     <action

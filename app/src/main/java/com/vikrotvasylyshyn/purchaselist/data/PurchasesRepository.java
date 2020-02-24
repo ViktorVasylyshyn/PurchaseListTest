@@ -1,58 +1,19 @@
 package com.vikrotvasylyshyn.purchaselist.data;
 
-import android.app.Application;
-
-import com.vikrotvasylyshyn.purchaselist.data.local.PurchasesDao;
-import com.vikrotvasylyshyn.purchaselist.data.local.PurchasesDatabase;
 import com.vikrotvasylyshyn.purchaselist.data.model.Purchase;
-import com.vikrotvasylyshyn.purchaselist.presentation.add.AddPurchaseContract;
-import com.vikrotvasylyshyn.purchaselist.presentation.bought.BoughtPurchasesContract;
-import com.vikrotvasylyshyn.purchaselist.presentation.purchases.PurchasesListContract;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
-public class PurchasesRepository implements PurchasesListContract.Repository, AddPurchaseContract.Repository, BoughtPurchasesContract.Repository {
+public interface PurchasesRepository {
+    Single<List<Purchase>> fetchBoughtPurchasesList();
 
-    private final PurchasesDao purchasesDao;
+    Completable deletePurchase(Purchase purchase);
 
-    @Inject
-    public PurchasesRepository(Application application) {
-        PurchasesDatabase database = PurchasesDatabase.getInstance(application);
-        purchasesDao = database.purchaseDao();
-    }
+    Completable addPurchase(Purchase purchase);
 
-    @Override
-    public Single<List<Purchase>> fetchPurchaseList() {
-        return purchasesDao.getActivePurchase()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
+    Single<List<Purchase>> fetchPurchaseList();
 
-    @Override
-    public Single<List<Purchase>> fetchBoughtPurchasesList() {
-        return purchasesDao.getBoughtPurchase()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    @Override
-    public Completable addPurchase(Purchase purchase) {
-        return purchasesDao.insert(purchase)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    @Override
-    public Completable deletePurchase(Purchase purchase) {
-        return purchasesDao.delete(purchase)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
 }

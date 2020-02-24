@@ -1,13 +1,8 @@
 package com.vikrotvasylyshyn.purchaselist.presentation.bought;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vikrotvasylyshyn.purchaselist.R;
@@ -20,7 +15,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class BoughtPurchasesFragment extends BaseFragment implements BoughtPurchasesContract.View {
 
@@ -33,20 +27,20 @@ public class BoughtPurchasesFragment extends BaseFragment implements BoughtPurch
     @BindView(R.id.bought_purchase_progress_bar)
     ProgressBar progressBar;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bought_purchases, container, false);
-        ButterKnife.bind(this, view);
+    protected int setLayoutRes() {
+        return R.layout.fragment_bought_purchases;
+    }
+
+    @Override
+    protected void init() {
         initRecyclerView();
-        return view;
     }
 
     private void initRecyclerView() {
         adapter.setOnClickListener(this::deletePurchase);
         recyclerView.setAdapter(adapter);
     }
-
 
     @Override
     public void onResume() {
