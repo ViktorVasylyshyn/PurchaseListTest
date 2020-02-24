@@ -5,10 +5,16 @@
     <string name="view_pager_title_bought">bought</string>
     <string name="button_title_confirm">confirm</string>
     <string name="hint_purchase_num">num of items</string>
-    <string name="hint_purchase_title">what purchase would like to by?</string>
+    <string name="hint_purchase_title">what purchase you would like to by?</string>
 
     <string name="toast_purchase_added">purchase added</string>
     <string name="toast_purchase_error">error</string>
     <string name="toast_purchase_deleted">deleted</string>
     <string name="toast_purchase_added_to_bought">added to \"bought\" section</string>
+    <string name="toast_enter_title">please, enter title</string>
+    <string name="toast_enter_num">please, enter a num of items</string>
+
+    <string name="take_from_camera">Take from camera</string>
+    <string name="take_from_gallery">Pick from gallery</string>
+    <string name="toast_image_upload_error">something went wrong. pleas, try again.</string>
 </resources>

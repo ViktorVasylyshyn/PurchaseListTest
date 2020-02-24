@@ -11,7 +11,7 @@ public class Purchase {
     private String title;
     private String count;
     private String imageUri;
-    private String status; // bought/active
+    private String status;
 
     public Purchase(String title, String count, String imageUri, String status) {
         this.title = title;
@@ -32,23 +32,15 @@ public class Purchase {
         return count;
     }
 
-    public void setCount(String count) {
-        this.count = count;
-    }
-
     public String getImageUri() {
         return imageUri;
-    }
-
-    public void setImageUri(String imageUri) {
-        this.imageUri = imageUri;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(PurchaseStatus status) {
+        this.status = status.getValue();
     }
 }

@@ -1,62 +1,70 @@
 package com.vikrotvasylyshyn.purchaselist.presentation.bought;
 
 import com.vikrotvasylyshyn.purchaselist.data.PurchasesRepository;
+import com.vikrotvasylyshyn.purchaselist.data.PurchasesRepositoryImpl;
 import com.vikrotvasylyshyn.purchaselist.data.model.Purchase;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableCompletableObserver;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class BoughtPurchasesPresenter implements BoughtPurchasesContract.Presenter {
 
     private BoughtPurchasesContract.View view;
-    private BoughtPurchasesContract.Repository repository;
-    @Inject
-    CompositeDisposable disposable;
+    private PurchasesRepository repository;
+
+    private final CompositeDisposable disposable = new CompositeDisposable();
 
     @Inject
-    public BoughtPurchasesPresenter(PurchasesRepository repository) {
+    BoughtPurchasesPresenter(PurchasesRepositoryImpl repository) {
         this.repository = repository;
-
     }
 
     @Override
     public void fetchBoughtPurchasesList() {
         view.showProgress(true);
-        disposable.add(repository.fetchBoughtPurchasesList().subscribeWith(new DisposableSingleObserver<List<Purchase>>() {
-
-            @Override
-            public void onSuccess(List<Purchase> list) {
-                view.showBoughtPurchases(list);
-                view.showProgress(true);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                view.showProgress(true);
-                view.showError(e.getMessage());
-            }
-        }));
+        disposable.add(repository.fetchBoughtPurchasesList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateList,
+                        this::showError
+                ));
     }
+
 
     @Override
     public void deletePurchase(Purchase purchase) {
-        disposable.add(repository.deletePurchase(purchase).subscribeWith(new DisposableCompletableObserver() {
-            @Override
-            public void onComplete() {
-                fetchBoughtPurchasesList();
-                view.showDeleted();
-            }
+        disposable.add(repository.deletePurchase(purchase)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::showDeleted,
+                        this::showError
+                ));
+    }
 
-            @Override
-            public void onError(Throwable e) {
-                view.showError(e.getMessage());
-            }
-        }));
+    private void updateList(List<Purchase> list) {
+        if (view == null)
+            return;
+        view.showBoughtPurchases(list);
+        view.showProgress(false);
+    }
+
+    private void showError(Throwable e) {
+        if (view == null)
+            return;
+        view.showProgress(false);
+        view.showError(e.getMessage());
+    }
+
+    private void showDeleted() {
+        if (view == null)
+            return;
+        fetchBoughtPurchasesList();
+        view.showDeleted();
     }
 
     @Override
@@ -72,7 +80,7 @@ public class BoughtPurchasesPresenter implements BoughtPurchasesContract.Present
 
     @Override
     public void onDetached() {
-        view = null;
         disposable.dispose();
+        view = null;
     }
 }
