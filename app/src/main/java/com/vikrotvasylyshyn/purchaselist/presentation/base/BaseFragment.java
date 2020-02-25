@@ -30,7 +30,7 @@ public abstract class BaseFragment extends DaggerFragment {
 
     protected abstract void init();
 
-    protected void showToast(String message) {
+    public void showToast(String message) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }
 

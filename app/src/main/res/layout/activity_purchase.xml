@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:elevation="@dimen/margin_medium"
+        android:background="@color/colorPrimary"
         app:itemIconSize="@dimen/bnb_icon_size"
         app:itemIconTint="@drawable/menu_icons_color_selector"
         app:layout_constraintBottom_toBottomOf="parent"
