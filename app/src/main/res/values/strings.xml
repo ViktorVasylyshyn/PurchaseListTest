@@ -17,4 +17,7 @@
     <string name="take_from_camera">Take from camera</string>
     <string name="take_from_gallery">Pick from gallery</string>
     <string name="toast_image_upload_error">something went wrong. pleas, try again.</string>
+    <string name="menu_gallery">gallery</string>
+    <string name="menu_camera">camera</string>
+    <string name="toast_need_permissions">you need to access permission if you want to use images</string>
 </resources>

@@ -2,13 +2,19 @@ package com.vikrotvasylyshyn.purchaselist.presentation.addpurchase;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vikrotvasylyshyn.purchaselist.R;
+import com.vikrotvasylyshyn.purchaselist.presentation.addpurchase.chooseimage.ChooseImageDelegate;
 import com.vikrotvasylyshyn.purchaselist.presentation.base.BaseFragment;
 import com.vikrotvasylyshyn.purchaselist.utill.Constants;
 
@@ -21,6 +27,8 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
 
     @Inject
     AddPurchasePresenter presenter;
+    @Inject
+    ChooseImageDelegate chooseImageDelegate;
     @BindView(R.id.add_progressbar)
     ProgressBar progressBar;
     @BindView(R.id.purchase_title)
@@ -29,6 +37,8 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
     EditText num;
     @BindView(R.id.purchase_image)
     ImageView imageView;
+    @BindView(R.id.fab_add_image)
+    FloatingActionButton addImage;
 
     private Uri imageUri;
 
@@ -68,21 +78,8 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
         showToast(R.string.toast_purchase_added);
         title.setText("");
         num.setText("");
-        imageView.setImageResource(R.drawable.ic_launcher_foreground);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == Constants.REQUEST_CODE_PICK_IMAGE) {
-            try {
-                imageUri = data.getData();
-            } catch (NullPointerException e) {
-                showToast(R.string.toast_image_upload_error);
-            }
-            if (imageUri != null)
-                presenter.showChosenImage(imageView, imageUri);
-        }
+        imageView.setImageResource(R.drawable.ic_image);
+        imageUri = null;
     }
 
     @Override
@@ -90,11 +87,66 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
         showToast(message);
     }
 
-    @OnClick(R.id.purchase_image)
-    void pickupImage() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE);
+    @OnClick(R.id.fab_add_image)
+    void showMenu() {
+        PopupMenu popupMenu = new PopupMenu(addImage.getContext(), addImage);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_add_image, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_gallery:
+                    chooseImageDelegate.chooseFromGallery();
+                    break;
+                case R.id.menu_camera:
+                    chooseImageDelegate.chooseFromCamera();
+                    break;
+                default:
+                    throw new IllegalArgumentException("unknown argument");
+            }
+            return true;
+        });
+        popupMenu.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            switch (requestCode) {
+                case Constants.PERMISSIONS_REQUEST_ENABLE_GALLERY:
+                    chooseImageDelegate.chooseFromGallery();
+                    break;
+                case Constants.PERMISSIONS_REQUEST_ENABLE_CAMERA:
+                    chooseImageDelegate.chooseFromCamera();
+                    break;
+                default:
+                    throw new IllegalArgumentException("unknown argument");
+            }
+        } else {
+            showToast(R.string.toast_need_permissions);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != Activity.RESULT_OK) {
+            imageUri = null;
+            showToast(R.string.toast_image_upload_error);
+            return;
+        }
+        switch (requestCode) {
+            case Constants.REQUEST_CODE_GET_IMAGE_FROM_GALLERY:
+                imageUri = data.getData();
+                if (imageUri != null)
+                    presenter.showChosenImage(imageView, imageUri);
+                break;
+            case Constants.REQUEST_CODE_GET_IMAGE_FROM_CAMERA:
+                imageUri = chooseImageDelegate.getImageUri();
+                presenter.showChosenImage(imageView, imageUri);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown argument");
+        }
     }
 
     @Override
@@ -113,5 +165,6 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
     public void onDestroy() {
         super.onDestroy();
         presenter.onDetached();
+        chooseImageDelegate.detach();
     }
 }
