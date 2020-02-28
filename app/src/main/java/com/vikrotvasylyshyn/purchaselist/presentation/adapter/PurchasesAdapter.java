@@ -75,8 +75,8 @@ public class PurchasesAdapter extends RecyclerView.Adapter<PurchasesAdapter.Purc
         void bindData(Purchase item, AdapterCallback.OnPurchaseClickListener clickListener) {
             title.setText(item.getTitle());
             count.setText(item.getCount());
-            if (!item.getImageUri().equals(""))
-                ImageLoader.loadPurchaseImage(imageView, item.getImageUri());
+            if (item.isImageUriNotEmpty()){
+                ImageLoader.loadPurchaseImage(imageView, item.getImageUri());}
             itemView.setOnClickListener(view -> {
                 if (null != clickListener)
                     clickListener.onPurchaseClicked(item);

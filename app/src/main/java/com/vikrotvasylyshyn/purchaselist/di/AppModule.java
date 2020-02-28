@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.vikrotvasylyshyn.purchaselist.utill.PermissionsManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,5 +22,10 @@ class AppModule {
         return item -> {
             /*multiple touches the same bnb icon must do nothing*/
         };
+    }
+
+    @Provides
+    PermissionsManager providePermissionManager(){
+        return new PermissionsManager();
     }
 }

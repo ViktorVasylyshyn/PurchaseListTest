@@ -16,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vikrotvasylyshyn.purchaselist.R;
 import com.vikrotvasylyshyn.purchaselist.presentation.addpurchase.chooseimage.ChooseImageDelegate;
 import com.vikrotvasylyshyn.purchaselist.presentation.base.BaseFragment;
-import com.vikrotvasylyshyn.purchaselist.utill.Constants;
+import com.vikrotvasylyshyn.purchaselist.utill.PermissionsManager;
 
 import javax.inject.Inject;
 
@@ -37,8 +37,6 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
     EditText num;
     @BindView(R.id.purchase_image)
     ImageView imageView;
-    @BindView(R.id.fab_add_image)
-    FloatingActionButton addImage;
 
     private Uri imageUri;
 
@@ -87,11 +85,12 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
         showToast(message);
     }
 
-    @OnClick(R.id.fab_add_image)
+    @OnClick(R.id.purchase_image)
     void showMenu() {
-        PopupMenu popupMenu = new PopupMenu(addImage.getContext(), addImage);
+        PopupMenu popupMenu = new PopupMenu(imageView.getContext(), imageView);
         popupMenu.getMenuInflater().inflate(R.menu.menu_add_image, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
+            chooseImageDelegate.setFragment(this);
             switch (menuItem.getItemId()) {
                 case R.id.menu_gallery:
                     chooseImageDelegate.chooseFromGallery();
@@ -111,10 +110,10 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             switch (requestCode) {
-                case Constants.PERMISSIONS_REQUEST_ENABLE_GALLERY:
+                case PermissionsManager.PERMISSIONS_REQUEST_ENABLE_GALLERY:
                     chooseImageDelegate.chooseFromGallery();
                     break;
-                case Constants.PERMISSIONS_REQUEST_ENABLE_CAMERA:
+                case PermissionsManager.PERMISSIONS_REQUEST_ENABLE_CAMERA:
                     chooseImageDelegate.chooseFromCamera();
                     break;
                 default:
@@ -134,19 +133,15 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
             showToast(R.string.toast_image_upload_error);
             return;
         }
-        switch (requestCode) {
-            case Constants.REQUEST_CODE_GET_IMAGE_FROM_GALLERY:
-                imageUri = data.getData();
-                if (imageUri != null)
-                    presenter.showChosenImage(imageView, imageUri);
-                break;
-            case Constants.REQUEST_CODE_GET_IMAGE_FROM_CAMERA:
-                imageUri = chooseImageDelegate.getImageUri();
-                presenter.showChosenImage(imageView, imageUri);
-                break;
-            default:
-                throw new IllegalArgumentException("unknown argument");
+        if (requestCode == ChooseImageDelegate.REQUEST_CODE_GET_IMAGE_FROM_GALLERY) {
+            imageUri = data.getData();
         }
+        if (imageUri != null)
+            presenter.showChosenImage(imageView, imageUri);
+    }
+
+    public void setImageUri(Uri uri) {
+        this.imageUri = uri;
     }
 
     @Override
@@ -165,6 +160,5 @@ public class AddPurchaseFragment extends BaseFragment implements AddPurchaseCont
     public void onDestroy() {
         super.onDestroy();
         presenter.onDetached();
-        chooseImageDelegate.detach();
     }
 }

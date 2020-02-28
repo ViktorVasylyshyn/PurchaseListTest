@@ -20,6 +20,10 @@ public class Purchase {
         this.status = status;
     }
 
+    public boolean isImageUriNotEmpty(){
+        return !imageUri.equals("");
+    }
+
     public String getTitle() {
         return title;
     }
